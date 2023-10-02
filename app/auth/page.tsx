@@ -1,9 +1,9 @@
 "use client"
 
+import axios from 'axios';
+import { useCallback, useState } from 'react';
 import Input from '@/components/Input';
 import Image from 'next/image';
-import { useCallback, useState } from 'react';
-import axios from 'axios';
 
 export default function Auth () {
   const [email, setEmail] = useState('');
@@ -17,7 +17,7 @@ export default function Auth () {
 
   const register = useCallback(async () => {
     try {
-      await axios.post('/api/register', {
+      await axios.post('/api', {
         email,
         name,
         password
@@ -25,7 +25,7 @@ export default function Auth () {
     } catch(error) {
       console.log(error);
     }
-  }, [])
+  }, [email, name, password])
 
   return (
     <main className="relative h-full w-full bg-[url('/images/hero.jpg')] bg-no-repeat bg-fixed bg-center">
@@ -72,7 +72,7 @@ export default function Auth () {
                 placeholder="(Minímo 8 carácteres)"
               />
             </div>
-            <button className='bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition'>
+            <button onClick={register} className='bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition'>
               {variant === 'login' ? 'Iniciar sesión' : 'Crear cuenta'}
             </button>
             <p className='text-neutral-500 mt-8'>
